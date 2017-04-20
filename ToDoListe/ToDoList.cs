@@ -1,9 +1,12 @@
-﻿using System.Data.OleDb;
+﻿using System;
+using System.Data.OleDb;
 
 namespace ToDoListe
 {
     public class ToDoList
     {
+        Task First = null;
+
         public void AddSorted(Task taskToAdd)
         {
             // TODO
@@ -11,7 +14,12 @@ namespace ToDoListe
 
         public void PrintList()
         {
-            // TODO
+            Task task = First;
+            if (!ReferenceEquals(task, null))
+            {
+                Console.WriteLine(task.ToString());
+                task = task.Next;
+            }
         }
 
         /// <summary>
