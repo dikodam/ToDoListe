@@ -5,7 +5,7 @@ namespace ToDoListe
 {
     public class ToDoList
     {
-        Task First = null;
+        Task first = null;
 
         public void AddSorted(Task taskToAdd)
         {
@@ -14,8 +14,8 @@ namespace ToDoListe
 
         public void PrintList()
         {
-            Task task = First;
-            if (!ReferenceEquals(task, null))
+            Task task = first;
+            while (!ReferenceEquals(task, null))
             {
                 Console.WriteLine(task.ToString());
                 task = task.Next;
@@ -49,14 +49,13 @@ namespace ToDoListe
 
         public Task Top()
         {
-            // TODO
-            return null;
-        }
-
-        public override string ToString()
-        {
-            // TODO
-            return base.ToString();
+            if (ReferenceEquals(first, null))
+            {
+                throw new Exception("Liste ist leer!");
+            }
+            Task result = first;
+            first = first.Next;
+            return result;
         }
     }
 }
