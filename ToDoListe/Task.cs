@@ -5,7 +5,12 @@ namespace ToDoListe
     public abstract class Task
     {
         public string Taskname { get; }
-        protected Datum datum;
+
+        public Datum Datum
+        {
+            get;
+            set;
+        }
 
         public Task Next
         {

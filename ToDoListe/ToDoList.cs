@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.OleDb;
+using System.Diagnostics.Eventing.Reader;
 
 namespace ToDoListe
 {
@@ -7,9 +8,25 @@ namespace ToDoListe
     {
         Task first = null;
 
+        /// <summary>
+        /// Fügt das neue Element so ein, dass jüngere Ereignisse näher am Anfang der Liste sind
+        /// </summary>
+        /// <param name="taskToAdd"></param>
         public void AddSorted(Task taskToAdd)
         {
+            if (ReferenceEquals(first, null))
+            {
+                first = taskToAdd;
+            }
+            else if (taskToAdd.Datum > first.Datum)
+            {
+                taskToAdd.Next = first;
+                first = taskToAdd;
+            }
+            else
+            {
             // TODO
+            }
         }
 
         public void PrintList()
