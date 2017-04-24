@@ -8,5 +8,15 @@
         {
             Location = location;
         }
+
+        public PrivateTask Copy()
+        {
+            return new PrivateTask(Taskname, Datum.ToString(), Location);
+        }
+
+        public override string ToString()
+        {
+            return $"{base.ToString()} Ort: {Location}";
+        }
     }
 }

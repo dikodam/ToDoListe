@@ -10,33 +10,88 @@ namespace ToDoListe
         Task first = null;
 
         /// <summary>
-        /// Fügt das neue Element so ein, dass jüngere Ereignisse näher am Anfang der Liste sind
+        /// Fügt das neue Element so ein, dass aktuellere Tasks am Anfang der Liste sind
         /// </summary>
-        /// <param name="taskToAdd"></param>
-        public void AddSorted(Task taskToAdd)
+        /// <param name="taskToBeAdded">Task, der neu hinzugefügt wird</param>
+        public void AddSorted(Task taskToBeAdded)
         {
-            if (ReferenceEquals(first, null))
+            if (first == null)
             {
-                first = taskToAdd;
-            }
-            else if (taskToAdd.Datum > first.Datum)
-            {
-                taskToAdd.Next = first;
-                first = taskToAdd;
+                first = taskToBeAdded;
             }
             else
             {
-            // TODO
+                for (Task currentTask = first; currentTask != null; currentTask = currentTask.Next)
+                {
+                    if (taskToBeAdded.Datum < currentTask.Datum)
+                    {
+                        InsertBefore(taskToBeAdded, currentTask);
+
+                        // es wird nur an einer Stelle eingefügt, d.h. nach dem Einfügen muss die Liste nicht weiter iteriert werden
+                        return;
+                    }
+                    // falls das neue Element ans Ende der Liste muss:
+                    if (currentTask.Next == null)
+                    {
+                        InsertAfter(taskToBeAdded, currentTask);
+
+                        // auch her gilt: sobald das Element eingefügt ist, ist die Methode beendet
+                        return;
+                    }
+                }
             }
+        }
+
+        /// <summary>
+        /// Fügt den ersten Task hinter den zweiten ein
+        /// </summary>
+        /// <param name="taskToBeAdded"></param>
+        /// <param name="currentTask"></param>
+        private void InsertAfter(Task taskToBeAdded, Task currentTask)
+        {
+            taskToBeAdded.Previous = currentTask;
+            if (currentTask.Next != null)
+            {
+                currentTask.Next.Previous = taskToBeAdded;
+                taskToBeAdded.Next = currentTask.Next;
+            }
+            currentTask.Next = taskToBeAdded;
+        }
+
+        /// <summary>
+        /// Fügt den ersten Task vor den zweiten Task ein
+        /// </summary>
+        /// <param name="taskToBeAdded">Der Task, der hinzugefügt wird</param>
+        /// <param name="currentTask">Der Task, vor den der taskToBeAdded hinzugefügt wird</param>
+        private void InsertBefore(Task taskToBeAdded, Task currentTask)
+        {
+            // vor dem 1. element -> taskToBeAdded an den Anfang der Liste
+            if (currentTask.Previous == null)
+            {
+                first = taskToBeAdded;
+            }
+            else
+            {
+                // nur wenn ein currentTask.Previous existiert:
+                taskToBeAdded.Previous = currentTask.Previous;
+                currentTask.Previous.Next = taskToBeAdded;
+            }
+            taskToBeAdded.Next = currentTask;
+            currentTask.Previous = taskToBeAdded;
         }
 
         public void PrintList()
         {
-            Task task = first;
-            while (!ReferenceEquals(task, null))
+            if (first == null)
             {
-                Console.WriteLine(task.ToString());
-                task = task.Next;
+                Console.WriteLine("Leere Liste!");
+            }
+            else
+            {
+                for (Task task = first; task != null; task = task.Next)
+                {
+                    Console.WriteLine(task.ToString());
+                }
             }
         }
 
@@ -49,11 +104,11 @@ namespace ToDoListe
         /// <returns>true wenn Änderung vorgenommen, false wenn Element nicht gefunden </returns>
         public bool ChangeLocation(string taskname, string oldLocation, string newLocation)
         {
-            for(Task currentTask = first; currentTask != null; currentTask = currentTask.Next)
+            for (Task curr = first; curr != null; curr = curr.Next)
             {
-                if (currentTask is PrivateTask && currentTask.Taskname == taskname && (currentTask as PrivateTask).Location == oldLocation)
+                if (curr is PrivateTask && curr.Taskname == taskname && (curr as PrivateTask).Location == oldLocation)
                 {
-                    (currentTask as PrivateTask).Location = newLocation;
+                    (curr as PrivateTask).Location = newLocation;
                     return true;
                 }
             }
@@ -63,14 +118,12 @@ namespace ToDoListe
         public ToDoList GetBusinessList()
         {
             ToDoList businessList = new ToDoList();
-            Task currentTask = first;
-            while (currentTask != null)
+            for (Task currentTask = first; currentTask != null; currentTask = currentTask.Next)
             {
                 if (currentTask is BusinessTask)
                 {
-                    businessList.AddSorted(currentTask);
+                    businessList.AddSorted((currentTask as BusinessTask).Copy());
                 }
-                currentTask = currentTask.Next;
             }
             return businessList;
         }
@@ -78,14 +131,14 @@ namespace ToDoListe
         public ToDoList GetPrivateList()
         {
             ToDoList privateList = new ToDoList();
-            Task currentTask = first;
-            while (currentTask != null)
+            for (Task currentTask = first; currentTask != null; currentTask = currentTask.Next)
             {
                 if (currentTask is PrivateTask)
                 {
-                    privateList.AddSorted(currentTask);
+                    // hier darf nicht die Referenz übergebenen werden, da sonst die ursprüngliche Liste in Leidenschaft gezogen wird
+                    // die Copy() Methode return eine neue Instanz mit den gleichen Werten, jedoch mit leeren Next und Previous
+                    privateList.AddSorted((currentTask as PrivateTask).Copy());
                 }
-                currentTask = currentTask.Next;
             }
             return privateList;
         }
@@ -96,9 +149,12 @@ namespace ToDoListe
             {
                 throw new Exception("Liste ist leer!");
             }
-            Task result = first;
-            first = first.Next;
-            return result;
+            return first;
+
+            // TODO Element entnehmen (löschendes lesen):
+//            Task result = first;
+//            first = first.Next;
+//            return result;
         }
     }
 }

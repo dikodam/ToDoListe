@@ -10,5 +10,15 @@ namespace ToDoListe
         {
             Priority = priority;
         }
+
+        public BusinessTask Copy()
+        {
+            return new BusinessTask(Taskname, Datum.ToString(), Priority);
+        }
+
+        public override string ToString()
+        {
+            return $"{base.ToString()} Prio: {Priority}";
+        }
     }
 }

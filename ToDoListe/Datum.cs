@@ -24,7 +24,7 @@ namespace ToDoListe
         }
 
         /// <summary>
-        ///  ein älteres Datum (z.B. 01.01.1999) ist größer als ein jüngeres Datum (z.B. 01.01.2000)
+        ///  ein ist größeres Datum ist ein Datum, das weiter in der Zukunft liegt
         /// </summary>
         /// <param name="d1">erstes zu vergleichendes Datum</param>
         /// <param name="d2">zweites zu vergleichendes Datum</param>
@@ -35,25 +35,25 @@ namespace ToDoListe
         }
 
         /// <summary>
-        ///  ein "jüngeres" Datum (z.B. 01.01.2000) ist 'kleiner' als ein älteres Datum (z.B. 01.01.1999)
+        ///  ein Datum, das näher in der Zukunft liegt, ist kleiner
         /// </summary>
         /// <param name="d1">erstes zu vergleichendes Datum</param>
         /// <param name="d2">zweites zu vergleichendes Datum</param>
         /// <returns>true, wenn d1 ein neueres Datum ist als d2</returns>
         public static bool operator <(Datum d1, Datum d2)
         {
-            // 12.03.2017 > 12.03.2016
-            if (d1.year > d2.year)
+            // 12.03.2016 < 12.03.2017
+            if (d1.year < d2.year)
             {
                 return true;
             }
-            // 12.05.2000 > 12.03.2000
-            if (d1.month > d2.month)
+            // 12.03.2000 < 12.05.2000
+            if (d1.month < d2.month)
             {
                 return true;
             }
-            // 02.01.2000 > 01.01.2000
-            if (d1.day > d2.day)
+            // 01.01.2000 < 02.01.2000
+            if (d1.day < d2.day)
             {
                 return true;
             }
