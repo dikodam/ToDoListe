@@ -2,6 +2,8 @@
 {
     public enum Priority
     {
-        high, normal, low;
+        high,
+        normal,
+        low
     }
 }
