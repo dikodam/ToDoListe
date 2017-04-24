@@ -6,22 +6,14 @@ namespace ToDoListe
     {
         public string Taskname { get; }
 
-        public Datum Datum
-        {
-            get;
-            set;
-        }
+        public Datum Datum { get; set; }
 
-        public Task Next
-        {
-            get;
-            set;
-        }
+        public Task Next { get; set; }
 
         protected Task(string name, string datum)
         {
             Taskname = name;
-            this.datum = new Datum(datum);
+            Datum = new Datum(datum);
         }
     }
 }

@@ -2,7 +2,7 @@
 {
     public class PrivateTask : Task
     {
-        private string Location { get; }
+        public string Location { get; set; }
 
         public PrivateTask(string name, string datum, string location) : base(name, datum)
         {

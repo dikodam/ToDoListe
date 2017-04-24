@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.OleDb;
 using System.Diagnostics.Eventing.Reader;
+using System.Runtime.InteropServices;
 
 namespace ToDoListe
 {
@@ -40,33 +41,58 @@ namespace ToDoListe
         }
 
         /// <summary>
-        ///
+        /// Ändert die Location des PrivateTask, der mit Taskname und aktueller Location angegeben wird
         /// </summary>
-        /// <param name="taskname"></param>
-        /// <param name="oldName"></param>
-        /// <param name="newName"></param>
+        /// <param name="taskname">Name des PrivateTask, dessen Location geändert werden soll</param>
+        /// <param name="oldLocation">aktueller Name der Location</param>
+        /// <param name="newLocation">neuer Name der Location</param>
         /// <returns>true wenn Änderung vorgenommen, false wenn Element nicht gefunden </returns>
-        public bool ChangeLocation(string taskname, string oldName, string newName)
+        public bool ChangeLocation(string taskname, string oldLocation, string newLocation)
         {
-            // TODO
+            for(Task currentTask = first; currentTask != null; currentTask = currentTask.Next)
+            {
+                if (currentTask is PrivateTask && currentTask.Taskname == taskname && (currentTask as PrivateTask).Location == oldLocation)
+                {
+                    (currentTask as PrivateTask).Location = newLocation;
+                    return true;
+                }
+            }
             return false;
         }
 
         public ToDoList GetBusinessList()
         {
-            // TODO
-            return null;
+            ToDoList businessList = new ToDoList();
+            Task currentTask = first;
+            while (currentTask != null)
+            {
+                if (currentTask is BusinessTask)
+                {
+                    businessList.AddSorted(currentTask);
+                }
+                currentTask = currentTask.Next;
+            }
+            return businessList;
         }
 
         public ToDoList GetPrivateList()
         {
-            // TODO
-            return null;
+            ToDoList privateList = new ToDoList();
+            Task currentTask = first;
+            while (currentTask != null)
+            {
+                if (currentTask is PrivateTask)
+                {
+                    privateList.AddSorted(currentTask);
+                }
+                currentTask = currentTask.Next;
+            }
+            return privateList;
         }
 
         public Task Top()
         {
-            if (ReferenceEquals(first, null))
+            if (first == null)
             {
                 throw new Exception("Liste ist leer!");
             }
