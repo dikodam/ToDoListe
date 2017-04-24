@@ -42,22 +42,30 @@ namespace ToDoListe
         /// <returns>true, wenn d1 ein neueres Datum ist als d2</returns>
         public static bool operator <(Datum d1, Datum d2)
         {
-            // 12.03.2016 < 12.03.2017
             if (d1.year < d2.year)
             {
                 return true;
             }
-            // 12.03.2000 < 12.05.2000
+            if (d1.year > d2.year)
+            {
+                return false;
+            }
+            // d1.year == d2.year
             if (d1.month < d2.month)
             {
                 return true;
             }
-            // 01.01.2000 < 02.01.2000
+            if (d1.month > d2.month)
+            {
+                return false;
+            }
+            // d1.month == d2.month
             if (d1.day < d2.day)
             {
                 return true;
             }
-            return false;
+            // wenn der Tag später oder gleich ist, wird das zweite Datum als das spätere betrachtet
+            else return false;
         }
 
         public override string ToString()

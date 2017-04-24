@@ -16,7 +16,7 @@ namespace ToDoListe
             allMyTasks.PrintList();
             if (allMyTasks.ChangeLocation("Kino", "Nürnberg", "Erlangen"))
             {
-                Console.WriteLine("Ort geändert");
+                Console.WriteLine("Ort geändert von Nürnberg auf Erlangen beim Termin Kino");
             }
             else
             {
