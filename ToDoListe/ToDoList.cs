@@ -45,39 +45,39 @@ namespace ToDoListe
         /// <summary>
         /// Fügt den ersten Task hinter den zweiten ein
         /// </summary>
-        /// <param name="taskToBeAdded"></param>
-        /// <param name="currentTask"></param>
-        private void InsertAfter(Task taskToBeAdded, Task currentTask)
+        /// <param name="taskToBeAdded">Der Task der hinzugefügt wird</param>
+        /// <param name="afterThis"></param>
+        private void InsertAfter(Task taskToBeAdded, Task afterThis)
         {
-            taskToBeAdded.Previous = currentTask;
-            if (currentTask.Next != null)
+            taskToBeAdded.Previous = afterThis;
+            if (afterThis.Next != null)
             {
-                currentTask.Next.Previous = taskToBeAdded;
-                taskToBeAdded.Next = currentTask.Next;
+                afterThis.Next.Previous = taskToBeAdded;
+                taskToBeAdded.Next = afterThis.Next;
             }
-            currentTask.Next = taskToBeAdded;
+            afterThis.Next = taskToBeAdded;
         }
 
         /// <summary>
         /// Fügt den ersten Task vor den zweiten Task ein
         /// </summary>
         /// <param name="taskToBeAdded">Der Task, der hinzugefügt wird</param>
-        /// <param name="currentTask">Der Task, vor den der taskToBeAdded hinzugefügt wird</param>
-        private void InsertBefore(Task taskToBeAdded, Task currentTask)
+        /// <param name="beforeThis">Der Task, vor den der taskToBeAdded hinzugefügt wird</param>
+        private void InsertBefore(Task taskToBeAdded, Task beforeThis)
         {
             // vor dem 1. element -> taskToBeAdded an den Anfang der Liste
-            if (currentTask.Previous == null)
+            if (beforeThis.Previous == null)
             {
                 first = taskToBeAdded;
             }
             else
             {
-                // nur wenn ein currentTask.Previous existiert:
-                taskToBeAdded.Previous = currentTask.Previous;
-                currentTask.Previous.Next = taskToBeAdded;
+                // nur wenn ein beforeThis.Previous existiert:
+                taskToBeAdded.Previous = beforeThis.Previous;
+                beforeThis.Previous.Next = taskToBeAdded;
             }
-            taskToBeAdded.Next = currentTask;
-            currentTask.Previous = taskToBeAdded;
+            taskToBeAdded.Next = beforeThis;
+            beforeThis.Previous = taskToBeAdded;
         }
 
         public void PrintList()
