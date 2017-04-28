@@ -149,12 +149,10 @@ namespace ToDoListe
             {
                 throw new Exception("Liste ist leer!");
             }
-            return first;
-
-            // TODO Element entnehmen (löschendes lesen):
-//            Task result = first;
-//            first = first.Next;
-//            return result;
+            Task result = first;
+            first = first.Next;
+            first.Previous = null;
+            return result;
         }
     }
 }
