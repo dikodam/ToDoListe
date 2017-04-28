@@ -9,6 +9,10 @@
             Location = location;
         }
 
+        /// <summary>
+        /// kopiert den Task und gibt einen neuen mit den gleichen Eigenschaften zurück, AUSSCLIESSLICH Previous und Next
+        /// </summary>
+        /// <returns></returns>
         public PrivateTask Copy()
         {
             return new PrivateTask(Taskname, Datum.ToString(), Location);

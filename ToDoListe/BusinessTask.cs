@@ -11,6 +11,10 @@ namespace ToDoListe
             Priority = priority;
         }
 
+        /// <summary>
+        /// kopiert den Task und gibt einen neuen mit den gleichen Eigenschaften zurück, AUSSCLIESSLICH Previous und Next
+        /// </summary>
+        /// <returns></returns>
         public BusinessTask Copy()
         {
             return new BusinessTask(Taskname, Datum.ToString(), Priority);
